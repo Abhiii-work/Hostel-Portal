@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSIT Rajagruha Hostel Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ PARTICLES BG -->
+<canvas id="particles"></canvas>
+
+<!-- ═══════════════════════════════════════════ LOGIN PAGE -->
+<div id="loginPage" class="login-wrapper active">
+  <div class="login-card">
+    <div class="login-glow"></div>
+    <div class="login-header">
+      <div class="logo-ring">
+        <img src="assets/logo.png" alt="SSIT Logo" class="logo-img" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="logo-fallback"><i class="fas fa-university"></i></div>
+      </div>
+      <h1 class="portal-title">Rajagruha</h1>
+      <p class="portal-sub">SSIT Hostel Management Portal</p>
+    </div>
+    <div class="login-form">
+      <div class="input-group">
+        <input type="text" id="loginUsn" placeholder="USN / Username" autocomplete="off">
+      </div>
+      <div class="input-group">
+        <input type="password" id="loginPass" placeholder="Password">
+        <button class="eye-btn" onclick="togglePass()"><i class="fas fa-eye" id="eyeIcon"></i></button>
+      </div>
+      <div id="loginError" class="login-error"></div>
+      <button class="btn-login" onclick="doLogin()">
+        <span>Enter Portal</span>
+        <i class="fas fa-arrow-right"></i>
+      </button>
+      <p class="login-hint"><i class="fas fa-info-circle"></i> Students: USN + first3letters+DDMMYY of DOB</p>
+    </div>
+  </div>
+</div>
+
+<button class="theme-toggle" onclick="toggleTheme()" title="Toggle Light/Dark Mode">
+  <i class="fas fa-moon" id="themeIcon"></i>
+</button>
+
+<!-- ═══════════════════════════════════════════ ADMIN SHELL -->
+<div id="adminShell" class="shell hidden">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <img src="assets/logo.png" alt="" class="sb-logo" onerror="this.style.display='none'">
+      <div>
+        <div class="sb-title">Rajagruha</div>
+        <div class="sb-role">Admin Panel</div>
+      </div>
+      <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    </div>
+    <nav class="sb-nav">
+      <a href="#" class="sb-link active" data-page="adminDashboard" onclick="adminNav(this,'adminDashboard')">
+        <i class="fas fa-chart-pie"></i><span>Dashboard</span>
+      </a>
+      <a href="#" class="sb-link" data-page="addStudentPage" onclick="adminNav(this,'addStudentPage')">
+        <i class="fas fa-user-plus"></i><span>Add Student</span>
+      </a>
+      <a href="#" class="sb-link" data-page="viewStudentsPage" onclick="adminNav(this,'viewStudentsPage')">
+        <i class="fas fa-users"></i><span>All Students</span>
+      </a>
+      <a href="#" class="sb-link" data-page="roomStatusPage" onclick="adminNav(this,'roomStatusPage')">
+        <i class="fas fa-door-open"></i><span>Room Status</span>
+      </a>
+      <a href="#" class="sb-link" data-page="leaveAdminPage" onclick="adminNav(this,'leaveAdminPage')">
+        <i class="fas fa-calendar-check"></i><span>Leave Apps</span>
+      </a>
+      <a href="#" class="sb-link" data-page="noticeAdminPage" onclick="adminNav(this,'noticeAdminPage')">
+        <i class="fas fa-bullhorn"></i><span>Notices</span>
+      </a>
+      <a href="#" class="sb-link" data-page="penaltyAdminPage" onclick="adminNav(this,'penaltyAdminPage')">
+        <i class="fas fa-gavel"></i><span>Penalties</span>
+      </a>
+      <a href="#" class="sb-link" data-page="complaintsAdminPage" onclick="adminNav(this,'complaintsAdminPage')">
+        <i class="fas fa-exclamation-circle"></i><span>Complaints</span>
+      </a>
+      <a href="#" class="sb-link" data-page="feedbackAdminPage" onclick="adminNav(this,'feedbackAdminPage')">
+        <i class="fas fa-comment-dots"></i><span>Feedback</span>
+      </a>
+      <a href="#" class="sb-link" data-page="messAdminPage" onclick="adminNav(this,'messAdminPage')">
+        <i class="fas fa-utensils"></i><span>Mess Menu</span>
+      </a>
+    </nav>
+    <button class="sb-logout" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
+  </aside>
+
+  <!-- Main -->
+  <main class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="mob-menu-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+        <h2 class="page-title" id="adminPageTitle">Dashboard</h2>
+      </div>
+      <div class="topbar-right">
+        <div class="admin-badge"><i class="fas fa-shield-halved"></i> Administrator</div>
+      </div>
+    </div>
+
+    <!-- ── ADMIN DASHBOARD ── -->
+    <section id="adminDashboard" class="admin-section active">
+      <div class="stats-grid">
+        <div class="stat-card" style="--accent:#6c63ff">
+          <div class="stat-icon"><i class="fas fa-users"></i></div>
+          <div class="stat-info"><div class="stat-num" id="statStudents">—</div><div class="stat-label">Total Students</div></div>
+        </div>
+        <div class="stat-card" style="--accent:#f9a825">
+          <div class="stat-icon"><i class="fas fa-door-open"></i></div>
+          <div class="stat-info"><div class="stat-num" id="statRooms">—</div><div class="stat-label">Rooms Occupied</div></div>
+        </div>
+        <div class="stat-card" style="--accent:#26c6da">
+          <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+          <div class="stat-info"><div class="stat-num" id="statLeaves">—</div><div class="stat-label">Pending Leaves</div></div>
+        </div>
+        <div class="stat-card" style="--accent:#ef5350">
+          <div class="stat-icon"><i class="fas fa-exclamation-circle"></i></div>
+          <div class="stat-info"><div class="stat-num" id="statComplaints">—</div><div class="stat-label">Complaints</div></div>
+        </div>
+      </div>
+      <div class="dash-row">
+        <div class="dash-box">
+          <h3><i class="fas fa-bell"></i> Recent Notices</h3>
+          <div id="dashNotices" class="dash-list"></div>
+        </div>
+        <div class="dash-box">
+          <h3><i class="fas fa-clock"></i> Latest Leave Apps</h3>
+          <div id="dashLeaves" class="dash-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── ADD STUDENT ── -->
+    <section id="addStudentPage" class="admin-section">
+      <div class="form-card">
+        <h3 class="form-title"><i class="fas fa-user-plus"></i> Register New Student</h3>
+        <div class="form-grid">
+          <div class="field"><label>Full Name</label><input id="sName" placeholder="e.g. Ravi Kumar"></div>
+          <div class="field"><label>USN</label><input id="sUsn" placeholder="e.g. 1SI21CS001"></div>
+          <div class="field"><label>Branch</label>
+            <select id="sBranch">
+              <option value="">Select Branch</option>
+              <option>CSE</option><option>ISE</option><option>ECE</option>
+              <option>EEE</option><option>ME</option><option>Civil</option>
+            </select>
+          </div>
+          <div class="field"><label>Year</label>
+            <select id="sYear"><option>1</option><option>2</option><option>3</option><option>4</option></select>
+          </div>
+          <div class="field"><label>Date of Birth</label><input id="sDob" type="date"></div>
+          <div class="field"><label>Phone</label><input id="sPhone" placeholder="+91 XXXXX XXXXX"></div>
+          <div class="field"><label>Email</label><input id="sEmail" placeholder="student@example.com"></div>
+          <div class="field full"><label>Address</label><textarea id="sAddress" placeholder="Full address..."></textarea></div>
+        </div>
+        <button class="btn-primary" onclick="addStudent()"><i class="fas fa-plus"></i> Add Student</button>
+        <div id="addStudentMsg" class="form-msg"></div>
+      </div>
+    </section>
+
+    <!-- ── VIEW STUDENTS ── -->
+    <section id="viewStudentsPage" class="admin-section">
+      <div class="table-toolbar">
+        <input id="studentSearch" class="search-input" placeholder="🔍  Search by name or USN..." oninput="filterStudents()">
+        <span id="studentCount" class="count-badge"></span>
+      </div>
+      <div class="table-wrap"><table id="studentsTable">
+        <thead><tr><th>#</th><th>Name</th><th>USN</th><th>Branch</th><th>Yr</th><th>Room</th><th>Fees</th><th>Penalty</th><th>Status</th></tr></thead>
+        <tbody id="studentsBody"></tbody>
+      </table></div>
+    </section>
+
+    <!-- ── ROOM STATUS ── -->
+    <section id="roomStatusPage" class="admin-section">
+      <div class="room-legend">
+        <span class="leg occ"><i class="fas fa-circle"></i> Occupied</span>
+        <span class="leg free"><i class="fas fa-circle"></i> Vacant</span>
+      </div>
+      <div id="adminRoomGrid" class="admin-room-grid"></div>
+    </section>
+
+    <!-- ── LEAVE ADMIN ── -->
+    <section id="leaveAdminPage" class="admin-section">
+      <div class="table-wrap"><table id="leavesTable">
+        <thead><tr><th>USN</th><th>Room</th><th>From</th><th>To</th><th>Reason</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="leavesBody"></tbody>
+      </table></div>
+    </section>
+
+    <!-- ── NOTICE ADMIN ── -->
+    <section id="noticeAdminPage" class="admin-section">
+      <div class="form-card compact">
+        <h3><i class="fas fa-bullhorn"></i> Post New Notice</h3>
+        <div class="field"><textarea id="noticeText" placeholder="Type your announcement here..." rows="3"></textarea></div>
+        <button class="btn-primary" onclick="postNotice()"><i class="fas fa-paper-plane"></i> Post Notice</button>
+      </div>
+      <div id="noticesList" class="notices-list"></div>
+    </section>
+
+    <!-- ── PENALTY ADMIN ── -->
+    <section id="penaltyAdminPage" class="admin-section">
+      <div class="form-card compact">
+        <h3><i class="fas fa-gavel"></i> Charge Penalty</h3>
+        <div class="form-grid">
+          <div class="field"><label>Room Number</label><input id="pRoom" placeholder="e.g. 42"></div>
+          <div class="field"><label>Amount (₹)</label><input id="pAmount" type="number" placeholder="e.g. 500"></div>
+          <div class="field"><label>Deadline</label><input id="pDate" type="date"></div>
+        </div>
+        <button class="btn-primary btn-danger" onclick="chargePenalty()"><i class="fas fa-gavel"></i> Apply Penalty</button>
+        <div id="penaltyMsg" class="form-msg"></div>
+      </div>
+      <div class="table-wrap mt-2"><table>
+        <thead><tr><th>USN</th><th>Amount</th><th>Deadline</th><th>Issued</th></tr></thead>
+        <tbody id="penaltiesBody"></tbody>
+      </table></div>
+    </section>
+
+    <!-- ── COMPLAINTS ADMIN ── -->
+    <section id="complaintsAdminPage" class="admin-section">
+      <div class="table-wrap"><table>
+        <thead><tr><th>USN</th><th>Room</th><th>Complaint</th><th>Date</th></tr></thead>
+        <tbody id="complaintsBody"></tbody>
+      </table></div>
+    </section>
+
+    <!-- ── FEEDBACK ADMIN ── -->
+    <section id="feedbackAdminPage" class="admin-section">
+      <div id="feedbackCards" class="feedback-grid"></div>
+    </section>
+
+    <!-- ── MESS ADMIN ── -->
+    <section id="messAdminPage" class="admin-section">
+      <div class="form-card">
+        <h3><i class="fas fa-utensils"></i> Weekly Mess Menu</h3>
+        <div class="table-wrap"><table id="messTable">
+          <thead><tr><th>Day</th><th>Breakfast</th><th>Lunch</th><th>Snacks</th><th>Dinner</th></tr></thead>
+          <tbody id="messBody"></tbody>
+        </table></div>
+        <button class="btn-primary mt-2" onclick="saveMess()"><i class="fas fa-save"></i> Save Menu</button>
+        <div id="messMsg" class="form-msg"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════ STUDENT SHELL -->
+<div id="studentShell" class="shell hidden">
+  <!-- Mobile bottom nav -->
+  <nav class="student-bottom-nav">
+    <a href="#" class="sn-link active" onclick="stuNav(this,'stuHome')"><i class="fas fa-home"></i><span>Home</span></a>
+    <a href="#" class="sn-link" onclick="stuNav(this,'stuDashboard')"><i class="fas fa-id-badge"></i><span>Profile</span></a>
+    <a href="#" class="sn-link" onclick="stuNav(this,'stuRoom')"><i class="fas fa-door-open"></i><span>Room</span></a>
+    <a href="#" class="sn-link" onclick="stuNav(this,'stuLeave')"><i class="fas fa-calendar"></i><span>Leave</span></a>
+    <a href="#" class="sn-link" onclick="stuNav(this,'stuMore')"><i class="fas fa-ellipsis-h"></i><span>More</span></a>
+  </nav>
+
+  <div class="stu-content">
+
+    <!-- ── STU HOME ── -->
+    <section id="stuHome" class="stu-section active">
+      <div class="stu-hero">
+        <div class="stu-hero-bg"></div>
+        <div class="stu-hero-info">
+          <div class="stu-avatar"><i class="fas fa-user-graduate"></i></div>
+          <div>
+            <h2 id="stuHeroName">Student Name</h2>
+            <p id="stuHeroUsn">USN</p>
+          </div>
+          <button class="stu-logout-btn" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i></button>
+        </div>
+      </div>
+      <div class="stu-cards-grid">
+        <div class="stu-card" onclick="stuNav(null,'stuDashboard')">
+          <div class="stu-card-icon" style="--c:#6c63ff"><i class="fas fa-id-badge"></i></div>
+          <span>My Profile</span>
+        </div>
+        <div class="stu-card" onclick="stuNav(null,'stuRoom')">
+          <div class="stu-card-icon" style="--c:#26c6da"><i class="fas fa-door-open"></i></div>
+          <span>Room Booking</span>
+        </div>
+        <div class="stu-card" onclick="stuNav(null,'stuLeave')">
+          <div class="stu-card-icon" style="--c:#f9a825"><i class="fas fa-calendar-check"></i></div>
+          <span>Apply Leave</span>
+        </div>
+        <div class="stu-card" onclick="stuNav(null,'stuNotices')">
+          <div class="stu-card-icon" style="--c:#ef5350"><i class="fas fa-bell"></i></div>
+          <span>Notices</span>
+        </div>
+        <div class="stu-card" onclick="stuNav(null,'stuMess')">
+          <div class="stu-card-icon" style="--c:#66bb6a"><i class="fas fa-utensils"></i></div>
+          <span>Mess Menu</span>
+        </div>
+        <div class="stu-card" onclick="stuNav(null,'stuFees')">
+          <div class="stu-card-icon" style="--c:#ab47bc"><i class="fas fa-rupee-sign"></i></div>
+          <span>Fees</span>
+        </div>
+        <div class="stu-card" onclick="stuNav(null,'stuComplaint')">
+          <div class="stu-card-icon" style="--c:#ff7043"><i class="fas fa-comment-exclamation"></i></div>
+          <span>Complaint</span>
+        </div>
+        <div class="stu-card" onclick="stuNav(null,'stuFeedback')">
+          <div class="stu-card-icon" style="--c:#29b6f6"><i class="fas fa-comment-dots"></i></div>
+          <span>Feedback</span>
+        </div>
+        <div class="stu-card" onclick="stuNav(null,'stuPenalty')">
+          <div class="stu-card-icon" style="--c:#ef5350"><i class="fas fa-gavel"></i></div>
+          <span>Penalties</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── STU DASHBOARD / PROFILE ── -->
+    <section id="stuDashboard" class="stu-section">
+      <div class="stu-section-header"><button class="back-btn" onclick="stuNav(null,'stuHome')"><i class="fas fa-arrow-left"></i></button><h3>My Profile</h3></div>
+      <div class="profile-card">
+        <div class="profile-avatar"><i class="fas fa-user-graduate"></i></div>
+        <div class="profile-details" id="profileDetails"></div>
+      </div>
+    </section>
+
+    <!-- ── STU ROOM ── -->
+    <section id="stuRoom" class="stu-section">
+      <div class="stu-section-header"><button class="back-btn" onclick="stuNav(null,'stuHome')"><i class="fas fa-arrow-left"></i></button><h3>Room Booking</h3></div>
+      <div id="roomLockedMsg" class="info-banner hidden"><i class="fas fa-lock"></i> Your room is already booked and locked.</div>
+      <div id="roomBookingArea">
+        <p class="section-hint">Select a room below and confirm booking</p>
+        <div id="stuRoomGrid" class="stu-room-grid"></div>
+        <div id="selectedRoomInfo" class="selected-room-info hidden">
+          <span>Selected: Room <strong id="selectedRoomNum"></strong></span>
+          <button class="btn-primary" onclick="bookRoom()"><i class="fas fa-check"></i> Confirm Booking</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── STU LEAVE ── -->
+    <section id="stuLeave" class="stu-section">
+      <div class="stu-section-header"><button class="back-btn" onclick="stuNav(null,'stuHome')"><i class="fas fa-arrow-left"></i></button><h3>Leave Application</h3></div>
+      <div class="form-card compact">
+        <div class="field"><label>From Date</label><input id="leaveFrom" type="date"></div>
+        <div class="field"><label>To Date</label><input id="leaveTo" type="date"></div>
+        <div class="field"><label>Reason</label><textarea id="leaveReason" placeholder="Describe your reason..."></textarea></div>
+        <button class="btn-primary" onclick="applyLeave()"><i class="fas fa-paper-plane"></i> Submit Application</button>
+        <div id="leaveMsg" class="form-msg"></div>
+      </div>
+      <h4 class="sub-heading">My Leave History</h4>
+      <div id="stuLeaveHistory" class="leave-history"></div>
+    </section>
+
+    <!-- ── STU NOTICES ── -->
+    <section id="stuNotices" class="stu-section">
+      <div class="stu-section-header"><button class="back-btn" onclick="stuNav(null,'stuHome')"><i class="fas fa-arrow-left"></i></button><h3>Notices</h3></div>
+      <div id="stuNoticesList" class="notices-list"></div>
+    </section>
+
+    <!-- ── STU MESS ── -->
+    <section id="stuMess" class="stu-section">
+      <div class="stu-section-header"><button class="back-btn" onclick="stuNav(null,'stuHome')"><i class="fas fa-arrow-left"></i></button><h3>Mess Menu</h3></div>
+      <div id="stuMessGrid" class="mess-week-grid"></div>
+    </section>
+
+    <!-- ── STU FEES ── -->
+    <section id="stuFees" class="stu-section">
+      <div class="stu-section-header"><button class="back-btn" onclick="stuNav(null,'stuHome')"><i class="fas fa-arrow-left"></i></button><h3>Fee Payment</h3></div>
+      <div id="feesContent" class="fees-card"></div>
+    </section>
+
+    <!-- ── STU COMPLAINT ── -->
+    <section id="stuComplaint" class="stu-section">
+      <div class="stu-section-header"><button class="back-btn" onclick="stuNav(null,'stuHome')"><i class="fas fa-arrow-left"></i></button><h3>Lodge Complaint</h3></div>
+      <div class="form-card compact">
+        <div class="field"><label>Complaint Details</label><textarea id="complaintText" placeholder="Describe your issue in detail..."></textarea></div>
+        <button class="btn-primary btn-danger" onclick="submitComplaint()"><i class="fas fa-paper-plane"></i> Submit Complaint</button>
+        <div id="complaintMsg" class="form-msg"></div>
+      </div>
+    </section>
+
+    <!-- ── STU FEEDBACK ── -->
+    <section id="stuFeedback" class="stu-section">
+      <div class="stu-section-header"><button class="back-btn" onclick="stuNav(null,'stuHome')"><i class="fas fa-arrow-left"></i></button><h3>Give Feedback</h3></div>
+      <div class="form-card compact">
+        <div class="field"><label>Your Feedback</label><textarea id="feedbackText" placeholder="Share your experience, suggestions..."></textarea></div>
+        <button class="btn-primary" onclick="submitFeedback()"><i class="fas fa-paper-plane"></i> Submit Feedback</button>
+        <div id="feedbackMsg" class="form-msg"></div>
+      </div>
+    </section>
+
+    <!-- ── STU PENALTY ── -->
+    <section id="stuPenalty" class="stu-section">
+      <div class="stu-section-header"><button class="back-btn" onclick="stuNav(null,'stuHome')"><i class="fas fa-arrow-left"></i></button><h3>My Penalties</h3></div>
+      <div id="stuPenaltiesList" class="penalties-list"></div>
+    </section>
+
+    <!-- ── STU MORE ── -->
+    <section id="stuMore" class="stu-section">
+      <div class="stu-section-header"><h3>More Options</h3></div>
+      <div class="more-options">
+        <div class="more-item" onclick="stuNav(null,'stuComplaint')"><i class="fas fa-comment-exclamation"></i> Lodge Complaint</div>
+        <div class="more-item" onclick="stuNav(null,'stuFeedback')"><i class="fas fa-comment-dots"></i> Give Feedback</div>
+        <div class="more-item" onclick="stuNav(null,'stuPenalty')"><i class="fas fa-gavel"></i> View Penalties</div>
+        <div class="more-item" onclick="stuNav(null,'stuLeave')"><i class="fas fa-history"></i> Leave Status</div>
+        <div class="more-item danger" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Logout</div>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ TOAST -->
+<div id="toast" class="toast"></div>
+
+<!-- ═══════════════════════════════════════════ SCRIPTS -->
+<script src="js/app.js"></script>
+</body>
+</html>
