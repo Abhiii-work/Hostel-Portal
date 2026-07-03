@@ -8,12 +8,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
-// ── Supabase ──────────────────────────────────────────────────────────────────
+// Supabase config
 const SUPABASE_URL = 'https://fnholegxpuulgtbntjtq.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZuaG9sZWd4cHV1bGd0Ym50anRxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY4Njk3OTcsImV4cCI6MjA5MjQ0NTc5N30.6oKDy0_24KDfFDpOTYIyxIDx39qBLlcwIG4-BoBNkQ8';
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ── AUTH ──────────────────────────────────────────────────────────────────────
+// Authentication
 app.post('/api/login', async (req, res) => {
   const { usn } = req.body;
   const { data, error } = await supabase
@@ -25,7 +25,7 @@ app.post('/api/login', async (req, res) => {
   res.json(data);
 });
 
-// ── STUDENTS ──────────────────────────────────────────────────────────────────
+// Student Management
 app.get('/api/students', async (req, res) => {
   const { data, error } = await supabase.from('students').select('*').order('name');
   if (error) return res.status(500).json({ error: error.message });
@@ -41,7 +41,7 @@ app.post('/api/students', async (req, res) => {
   res.json({ success: true, data });
 });
 
-// ── ROOMS ─────────────────────────────────────────────────────────────────────
+// Room Allotment
 app.post('/api/update-room', async (req, res) => {
   const { usn, room } = req.body;
   const { error } = await supabase.from('students').update({ room }).eq('usn', usn);
@@ -56,7 +56,7 @@ app.post('/api/update-payment', async (req, res) => {
   res.json({ success: true });
 });
 
-// ── LEAVES ────────────────────────────────────────────────────────────────────
+// Leave Applications
 app.get('/api/leaves', async (req, res) => {
   const { data, error } = await supabase.from('leaves').select('*').order('created_at', { ascending: false });
   if (error) return res.status(500).json({ error: error.message });
@@ -78,7 +78,7 @@ app.patch('/api/leaves/:id', async (req, res) => {
   res.json({ success: true });
 });
 
-// ── NOTICES ───────────────────────────────────────────────────────────────────
+// Notice Board
 app.get('/api/notices', async (req, res) => {
   const { data, error } = await supabase.from('notices').select('*').order('created_at', { ascending: false });
   if (error) return res.status(500).json({ error: error.message });
@@ -99,7 +99,7 @@ app.delete('/api/notices/:id', async (req, res) => {
   res.json({ success: true });
 });
 
-// ── COMPLAINTS ────────────────────────────────────────────────────────────────
+// Complaints
 app.get('/api/complaints', async (req, res) => {
   const { data, error } = await supabase.from('complaints').select('*').order('created_at', { ascending: false });
   if (error) return res.status(500).json({ error: error.message });
@@ -113,7 +113,7 @@ app.post('/api/complaints', async (req, res) => {
   res.json({ success: true });
 });
 
-// ── FEEDBACK ──────────────────────────────────────────────────────────────────
+// Feedback
 app.get('/api/feedback', async (req, res) => {
   const { data, error } = await supabase.from('feedback').select('*').order('created_at', { ascending: false });
   if (error) return res.status(500).json({ error: error.message });
@@ -127,7 +127,7 @@ app.post('/api/feedback', async (req, res) => {
   res.json({ success: true });
 });
 
-// ── PENALTIES ─────────────────────────────────────────────────────────────────
+// Penalties
 app.get('/api/penalties', async (req, res) => {
   const { data, error } = await supabase.from('penalties').select('*').order('created_at', { ascending: false });
   if (error) return res.status(500).json({ error: error.message });
@@ -141,7 +141,7 @@ app.post('/api/penalties', async (req, res) => {
   res.json({ success: true });
 });
 
-// ── MESS MENU ─────────────────────────────────────────────────────────────────
+// Mess Menu
 app.get('/api/mess', async (req, res) => {
   const { data, error } = await supabase.from('mess_menu').select('*').order('day_order');
   if (error) return res.status(500).json({ error: error.message });
@@ -156,10 +156,10 @@ app.post('/api/mess', async (req, res) => {
   res.json({ success: true });
 });
 
-// ── CATCH-ALL → serve index.html ──────────────────────────────────────────────
+// Catch-all route to serve index.html
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`\n🏨 SSIT Hostel Portal running at http://localhost:${PORT}\n`));
+app.listen(PORT, () => console.log(`Hostel Portal running at http://localhost:${PORT}`));

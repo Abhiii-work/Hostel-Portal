@@ -1,7 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════
-   SSIT RAJAGRUHA HOSTEL PORTAL — app.js
-   All client-side logic: login, admin, student flows
-═══════════════════════════════════════════════════════════════ */
+// SSIT Rajagruha Hostel Portal - Client Application
 
 const API = '';  // same-origin Node.js server
 const ADMIN = { username: 'admin', password: 'Admin@SSIT123' };
@@ -11,9 +8,7 @@ let allStudents = [];
 let selectedRoom = null;
 let occupiedRooms = new Set();
 
-/* ══════════════════════════════════════════════════════════
-   PARTICLES BACKGROUND
-══════════════════════════════════════════════════════════ */
+// Particles Background
 (function initParticles() {
   const canvas = document.getElementById('particles');
   const ctx = canvas.getContext('2d');
@@ -55,9 +50,7 @@ let occupiedRooms = new Set();
   draw();
 })();
 
-/* ══════════════════════════════════════════════════════════
-   HELPERS
-══════════════════════════════════════════════════════════ */
+// Utility helpers
 function showToast(msg, type = '') {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -95,9 +88,7 @@ function generatePassword(name, dob) {
   return first3 + fmt;
 }
 
-/* ══════════════════════════════════════════════════════════
-   AUTH
-══════════════════════════════════════════════════════════ */
+// Authentication & Login flow
 function togglePass() {
   const inp  = document.getElementById('loginPass');
   const icon = document.getElementById('eyeIcon');
@@ -145,9 +136,7 @@ async function doLogin() {
   }
 }
 
-/* ══════════════════════════════════════════════════════════
-   THEME TOGGLE
-══════════════════════════════════════════════════════════ */
+// Theme Management (Light/Dark mode)
 function toggleTheme() {
   const html = document.documentElement;
   const icon = document.getElementById('themeIcon');
@@ -189,9 +178,7 @@ document.getElementById('loginPass').addEventListener('keydown', e => {
   if (e.key === 'Enter') doLogin();
 });
 
-/* ══════════════════════════════════════════════════════════
-   SIDEBAR TOGGLE
-══════════════════════════════════════════════════════════ */
+// Responsive Sidebar Toggle
 function toggleSidebar() {
   const sb = document.getElementById('sidebar');
   if (window.innerWidth <= 768) {
@@ -201,9 +188,7 @@ function toggleSidebar() {
   }
 }
 
-/* ══════════════════════════════════════════════════════════
-   ADMIN NAVIGATION
-══════════════════════════════════════════════════════════ */
+// Admin View & Navigation Panel
 const PAGE_TITLES = {
   adminDashboard:    'Dashboard',
   addStudentPage:    'Add Student',
@@ -236,7 +221,7 @@ function adminNav(linkEl, pageId) {
   if (pageId === 'messAdminPage')     loadMessAdmin();
 }
 
-/* ── ADMIN DASHBOARD ──────────────────────────────────── */
+// Admin Dashboard stats & recent activity
 async function loadAdminDashboard() {
   try {
     const [students, leaves, complaints, notices] = await Promise.all([
@@ -267,7 +252,7 @@ async function loadAdminDashboard() {
   } catch (e) { console.error(e); }
 }
 
-/* ── ADD STUDENT ──────────────────────────────────────── */
+// Register new student
 async function addStudent() {
   const name    = document.getElementById('sName').value.trim();
   const usn     = document.getElementById('sUsn').value.trim();
@@ -291,7 +276,7 @@ async function addStudent() {
   }
 }
 
-/* ── VIEW STUDENTS TABLE ──────────────────────────────── */
+// Fetch and render students directory
 let studentsCache = [];
 
 async function loadStudentsTable() {
@@ -328,7 +313,7 @@ function filterStudents() {
   renderStudentsTable(filtered);
 }
 
-/* ── ADMIN ROOMS ──────────────────────────────────────── */
+// Render hostel room allocation matrix for Admin
 async function loadAdminRooms() {
   if (!allStudents.length) allStudents = await api('/api/students');
   occupiedRooms = new Set(allStudents.filter(s => s.room).map(s => String(s.room)));
@@ -345,7 +330,7 @@ async function loadAdminRooms() {
   }
 }
 
-/* ── LEAVES TABLE ─────────────────────────────────────── */
+// Leaves review and updates
 async function loadLeavesTable() {
   const leaves = await api('/api/leaves');
   const tbody = document.getElementById('leavesBody');
@@ -373,7 +358,7 @@ async function updateLeave(id, status) {
   loadLeavesTable();
 }
 
-/* ── NOTICES ADMIN ────────────────────────────────────── */
+// Notice board alerts management
 async function loadNoticesAdmin() {
   const notices = await api('/api/notices');
   const list = document.getElementById('noticesList');
@@ -404,7 +389,7 @@ async function deleteNotice(id) {
   loadNoticesAdmin();
 }
 
-/* ── PENALTIES ADMIN ──────────────────────────────────── */
+// Levy penalties on specific rooms/students
 async function loadPenaltiesAdmin() {
   const penalties = await api('/api/penalties');
   const tbody = document.getElementById('penaltiesBody');
@@ -439,7 +424,7 @@ async function chargePenalty() {
   loadPenaltiesAdmin();
 }
 
-/* ── COMPLAINTS ADMIN ─────────────────────────────────── */
+// View complaints log
 async function loadComplaintsAdmin() {
   const complaints = await api('/api/complaints');
   const tbody = document.getElementById('complaintsBody');
@@ -453,7 +438,7 @@ async function loadComplaintsAdmin() {
   `).join('') || '<tr><td colspan="4" style="text-align:center;color:var(--text2)">No complaints</td></tr>';
 }
 
-/* ── FEEDBACK ADMIN ───────────────────────────────────── */
+// Feedback board review
 async function loadFeedbackAdmin() {
   const feedback = await api('/api/feedback');
   const grid = document.getElementById('feedbackCards');
@@ -466,7 +451,7 @@ async function loadFeedbackAdmin() {
   `).join('') || '<p style="color:var(--text2)">No feedback submitted</p>';
 }
 
-/* ── MESS ADMIN ───────────────────────────────────────── */
+// Update and display Mess Schedule
 const DAYS = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
 
 async function loadMessAdmin() {
@@ -497,9 +482,7 @@ async function saveMess() {
   setMsg('messMsg', '✅ Mess menu saved!', 'success');
 }
 
-/* ══════════════════════════════════════════════════════════
-   STUDENT NAVIGATION
-══════════════════════════════════════════════════════════ */
+// Student View & Mobile Navigation
 function stuNav(linkEl, pageId) {
   document.querySelectorAll('.stu-section').forEach(s => s.classList.remove('active'));
   document.querySelectorAll('.sn-link').forEach(l => l.classList.remove('active'));
@@ -525,7 +508,7 @@ function stuNav(linkEl, pageId) {
   if (pageId === 'stuPenalty')   loadStudentPenalties();
 }
 
-/* ── PROFILE ──────────────────────────────────────────── */
+// Display Student profile data
 function renderProfileDetails() {
   const s = currentStudent;
   document.getElementById('profileDetails').innerHTML = `
@@ -542,7 +525,7 @@ function renderProfileDetails() {
   `;
 }
 
-/* ── STUDENT ROOMS ────────────────────────────────────── */
+// Load and select room for students
 async function loadStudentRooms() {
   if (currentStudent.room_locked) {
     document.getElementById('roomLockedMsg').classList.remove('hidden');
@@ -591,7 +574,7 @@ async function bookRoom() {
   }
 }
 
-/* ── FEES ─────────────────────────────────────────────── */
+// Hostel Fees details and payment simulation
 function renderFeesPage() {
   const container = document.getElementById('feesContent');
   if (currentStudent.fees > 0) {
@@ -627,7 +610,7 @@ async function payFees() {
   }
 }
 
-/* ── LEAVE ────────────────────────────────────────────── */
+// Student leave applications submission & history
 async function applyLeave() {
   const from   = document.getElementById('leaveFrom').value;
   const to     = document.getElementById('leaveTo').value;
@@ -666,7 +649,7 @@ async function loadStudentLeaveHistory() {
   `).join('') || '<p style="color:var(--text2);font-size:0.88rem">No leave applications yet.</p>';
 }
 
-/* ── NOTICES STUDENT ──────────────────────────────────── */
+// Render administrative announcements
 async function loadStudentNotices() {
   const notices = await api('/api/notices');
   const list = document.getElementById('stuNoticesList');
@@ -680,7 +663,7 @@ async function loadStudentNotices() {
   `).join('') || '<p style="color:var(--text2);padding:1rem">No notices at this time.</p>';
 }
 
-/* ── MESS STUDENT ─────────────────────────────────────── */
+// Mess Menu schedule view
 async function loadStudentMess() {
   const menu = await api('/api/mess');
   const grid = document.getElementById('stuMessGrid');
@@ -697,7 +680,7 @@ async function loadStudentMess() {
   `).join('') || '<p style="color:var(--text2)">Mess menu not available.</p>';
 }
 
-/* ── COMPLAINT ────────────────────────────────────────── */
+// Student grievances submission
 async function submitComplaint() {
   const text = document.getElementById('complaintText').value.trim();
   if (!text) { setMsg('complaintMsg', 'Please describe your complaint.', 'error'); return; }
@@ -714,7 +697,7 @@ async function submitComplaint() {
   }
 }
 
-/* ── FEEDBACK ─────────────────────────────────────────── */
+// Feedback submission
 async function submitFeedback() {
   const text = document.getElementById('feedbackText').value.trim();
   if (!text) { setMsg('feedbackMsg', 'Please enter your feedback.', 'error'); return; }
@@ -731,7 +714,7 @@ async function submitFeedback() {
   }
 }
 
-/* ── PENALTIES STUDENT ────────────────────────────────── */
+// Penalty check and deadlines
 async function loadStudentPenalties() {
   const penalties = await api('/api/penalties');
   const mine = (penalties || []).filter(p => p.usn === currentStudent.usn);
@@ -747,9 +730,7 @@ async function loadStudentPenalties() {
   `).join('') || '<p style="color:var(--text2);font-size:0.88rem">No penalties charged.</p>';
 }
 
-/* ══════════════════════════════════════════════════════════
-   INIT
-══════════════════════════════════════════════════════════ */
+// Application Initialization
 window.addEventListener('DOMContentLoaded', () => {
   // Preload students list silently
   api('/api/students').then(data => { allStudents = data || []; });

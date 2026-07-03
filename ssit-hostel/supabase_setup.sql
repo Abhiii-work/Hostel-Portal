@@ -1,9 +1,6 @@
--- ============================================================
---  SSIT RAJAGRUHA HOSTEL PORTAL — Supabase Database Setup
---  Run this entire script in Supabase → SQL Editor → New Query
--- ============================================================
+-- SSIT Rajagruha Hostel Portal - Supabase Database Schema Setup
 
--- 1. STUDENTS
+-- Students Table
 CREATE TABLE IF NOT EXISTS students (
   id          BIGSERIAL PRIMARY KEY,
   name        TEXT NOT NULL,
@@ -21,7 +18,7 @@ CREATE TABLE IF NOT EXISTS students (
   created_at  TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 2. LEAVES
+-- Leaves Table
 CREATE TABLE IF NOT EXISTS leaves (
   id          BIGSERIAL PRIMARY KEY,
   usn         TEXT NOT NULL,
@@ -33,14 +30,14 @@ CREATE TABLE IF NOT EXISTS leaves (
   created_at  TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 3. NOTICES
+-- Notices Table
 CREATE TABLE IF NOT EXISTS notices (
   id          BIGSERIAL PRIMARY KEY,
   message     TEXT NOT NULL,
   created_at  TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 4. COMPLAINTS
+-- Complaints Table
 CREATE TABLE IF NOT EXISTS complaints (
   id          BIGSERIAL PRIMARY KEY,
   usn         TEXT NOT NULL,
@@ -49,7 +46,7 @@ CREATE TABLE IF NOT EXISTS complaints (
   created_at  TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 5. FEEDBACK
+-- Feedback Table
 CREATE TABLE IF NOT EXISTS feedback (
   id          BIGSERIAL PRIMARY KEY,
   usn         TEXT NOT NULL,
@@ -57,7 +54,7 @@ CREATE TABLE IF NOT EXISTS feedback (
   created_at  TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 6. PENALTIES
+-- Penalties Table
 CREATE TABLE IF NOT EXISTS penalties (
   id          BIGSERIAL PRIMARY KEY,
   usn         TEXT NOT NULL,
@@ -66,7 +63,7 @@ CREATE TABLE IF NOT EXISTS penalties (
   created_at  TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 7. MESS MENU
+-- Mess Menu Table
 CREATE TABLE IF NOT EXISTS mess_menu (
   id          BIGSERIAL PRIMARY KEY,
   day         TEXT UNIQUE NOT NULL,
@@ -77,7 +74,7 @@ CREATE TABLE IF NOT EXISTS mess_menu (
   dinner      TEXT DEFAULT ''
 );
 
--- Seed default mess days
+-- Seed default weekly menu
 INSERT INTO mess_menu (day, day_order, breakfast, lunch, snacks, dinner) VALUES
   ('Monday',    1, 'Idli Sambar',    'Rice Dal Sabzi',  'Tea Biscuits',     'Chapati Paneer'),
   ('Tuesday',   2, 'Poha Upma',      'Rajma Rice',      'Samosa',           'Rice Dal Fry'),
@@ -88,9 +85,7 @@ INSERT INTO mess_menu (day, day_order, breakfast, lunch, snacks, dinner) VALUES
   ('Sunday',    7, 'Puri Halwa',     'Special Thali',   'Ice Cream',        'Noodles Soup')
 ON CONFLICT (day) DO NOTHING;
 
--- ============================================================
---  DISABLE RLS for easy dev (enable & add policies in prod)
--- ============================================================
+-- Disable RLS for development environment
 ALTER TABLE students   DISABLE ROW LEVEL SECURITY;
 ALTER TABLE leaves     DISABLE ROW LEVEL SECURITY;
 ALTER TABLE notices    DISABLE ROW LEVEL SECURITY;
@@ -99,5 +94,5 @@ ALTER TABLE feedback   DISABLE ROW LEVEL SECURITY;
 ALTER TABLE penalties  DISABLE ROW LEVEL SECURITY;
 ALTER TABLE mess_menu  DISABLE ROW LEVEL SECURITY;
 
--- Done! ✅
+-- Setup complete
 SELECT 'Database setup complete! 🏨' AS status;

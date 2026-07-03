@@ -1,7 +1,4 @@
-/* ═══════════════════════════════════════════════════════════════
-   SSIT RAJAGRUHA HOSTEL PORTAL — style.css
-   Aesthetic: Deep Navy + Gold + Teal — Luxury Academic Portal
-═══════════════════════════════════════════════════════════════ */
+/* SSIT Rajagruha Hostel Portal Style Sheet */
 
 :root {
   --navy:    #0d1b2a;
@@ -161,7 +158,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ── PARTICLES ──────────────────────────────────────── */
+/* Particles background container */
 #particles {
   position: fixed;
   inset: 0;
@@ -170,19 +167,17 @@ body {
   opacity: 0.4;
 }
 
-/* ── UTILITY ─────────────────────────────────────────── */
+/* Utility Classes */
 .hidden { display: none !important; }
 .active { display: block !important; }
 .mt-2 { margin-top: 1.5rem; }
 
-/* ── SCROLLBAR ───────────────────────────────────────── */
+/* Custom Scrollbar */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: var(--navy2); }
 ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
 
-/* ════════════════════════════════════════════════════════
-   LOGIN PAGE
-════════════════════════════════════════════════════════ */
+/* Login View */
 .login-wrapper {
   position: fixed;
   inset: 0;
@@ -335,12 +330,10 @@ body {
 
 .login-hint { color: var(--text2); font-size: 0.78rem; text-align: center; }
 
-/* ════════════════════════════════════════════════════════
-   SHELL LAYOUT
-════════════════════════════════════════════════════════ */
+/* Portal Shell Layout */
 .shell { display: flex; min-height: 100vh; position: relative; z-index: 10; }
 
-/* ── SIDEBAR ─────────────────────────────────────────── */
+/* Navigation Sidebar */
 .sidebar {
   width: 240px;
   min-height: 100vh;
@@ -436,7 +429,7 @@ body {
 }
 .sb-logout:hover { background: rgba(239,83,80,0.1); }
 
-/* ── MAIN CONTENT ─────────────────────────────────────── */
+/* Main Content Workspace */
 .main-content {
   flex: 1;
   display: flex;
@@ -477,7 +470,7 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── STATS GRID ──────────────────────────────────────── */
+/* Dashboard Stats */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -537,7 +530,7 @@ body {
   border-left: 2px solid var(--gold);
 }
 
-/* ── FORM CARD ───────────────────────────────────────── */
+/* Form Card Styling */
 .form-card {
   background: var(--glass2);
   border: 1px solid var(--border);
@@ -601,7 +594,7 @@ select, textarea {
 .form-msg.success { color: var(--success); }
 .form-msg.error { color: var(--danger); }
 
-/* ── BUTTONS ─────────────────────────────────────────── */
+/* Action Buttons */
 .btn-primary {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 11px 22px;
@@ -637,7 +630,7 @@ select, textarea {
 .btn-approve:hover { filter: brightness(1.15); }
 .btn-reject:hover  { filter: brightness(1.15); }
 
-/* ── TABLE ───────────────────────────────────────────── */
+/* Data Tables */
 .table-toolbar {
   display: flex; align-items: center; gap: 1rem;
   margin-bottom: 1rem;
@@ -703,7 +696,7 @@ tr:hover td { background: var(--glass); color: var(--text); }
 .badge-approved { background: rgba(102,187,106,0.15); color: var(--success); }
 .badge-rejected { background: rgba(239,83,80,0.15);   color: var(--danger); }
 
-/* ── ROOM GRID ADMIN ─────────────────────────────────── */
+/* Admin Room Allotment Grid */
 .room-legend { display: flex; gap: 1.5rem; margin-bottom: 1rem; }
 .leg { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text2); }
 .leg.occ i { color: var(--gold); }
@@ -735,7 +728,7 @@ tr:hover td { background: var(--glass); color: var(--text); }
 }
 .room-tile:hover { transform: scale(1.05); }
 
-/* ── NOTICES ─────────────────────────────────────────── */
+/* Bulletin Notice Board */
 .notices-list { display: flex; flex-direction: column; gap: 10px; }
 .notice-item {
   background: var(--glass2);
@@ -760,7 +753,7 @@ tr:hover td { background: var(--glass); color: var(--text); }
 }
 .notice-del:hover { color: #ff1744; }
 
-/* ── FEEDBACK CARDS ──────────────────────────────────── */
+/* Student Feedback Cards */
 .feedback-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -778,7 +771,7 @@ tr:hover td { background: var(--glass); color: var(--text); }
 .fb-text { font-size: 0.88rem; color: var(--text2); line-height: 1.5; }
 .fb-date { font-size: 0.75rem; color: var(--text2); margin-top: 8px; opacity: 0.7; }
 
-/* ── MESS TABLE ──────────────────────────────────────── */
+/* Mess Schedule Inputs */
 #messTable input {
   width: 140px;
   padding: 7px 10px;
@@ -789,9 +782,7 @@ tr:hover td { background: var(--glass); color: var(--text); }
   font-size: 0.85rem;
 }
 
-/* ════════════════════════════════════════════════════════
-   STUDENT SHELL
-════════════════════════════════════════════════════════ */
+/* Student Dashboard Layout */
 #studentShell {
   flex-direction: column;
   min-height: 100vh;
@@ -1119,7 +1110,7 @@ tr:hover td { background: var(--glass); color: var(--text); }
 .more-item i { width: 20px; text-align: center; color: var(--gold); }
 .more-item.danger i { color: var(--danger); }
 
-/* ── TOAST ───────────────────────────────────────────── */
+/* Notifications Toast */
 .toast {
   position: fixed;
   bottom: 80px;
@@ -1146,7 +1137,7 @@ tr:hover td { background: var(--glass); color: var(--text); }
 .toast.success { border-color: var(--success); color: var(--success); }
 .toast.error   { border-color: var(--danger);  color: var(--danger); }
 
-/* ── RESPONSIVE ──────────────────────────────────────── */
+/* Media Queries & Responsive Layouts */
 @media (max-width: 1024px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr); }
   .dash-row   { grid-template-columns: 1fr; }

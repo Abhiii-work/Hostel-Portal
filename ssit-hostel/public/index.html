@@ -12,10 +12,10 @@
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════ PARTICLES BG -->
+<!-- Particles Background -->
 <canvas id="particles"></canvas>
 
-<!-- ═══════════════════════════════════════════ LOGIN PAGE -->
+<!-- Login Page -->
 <div id="loginPage" class="login-wrapper active">
   <div class="login-card">
     <div class="login-glow"></div>
@@ -49,9 +49,9 @@
   <i class="fas fa-moon" id="themeIcon"></i>
 </button>
 
-<!-- ═══════════════════════════════════════════ ADMIN SHELL -->
+<!-- Admin Shell -->
 <div id="adminShell" class="shell hidden">
-  <!-- Sidebar -->
+  <!-- Sidebar Navigation -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
       <img src="assets/logo.png" alt="" class="sb-logo" onerror="this.style.display='none'">
@@ -96,7 +96,7 @@
     <button class="sb-logout" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
   </aside>
 
-  <!-- Main -->
+  <!-- Main Content Area -->
   <main class="main-content">
     <div class="topbar">
       <div class="topbar-left">
@@ -108,7 +108,7 @@
       </div>
     </div>
 
-    <!-- ── ADMIN DASHBOARD ── -->
+    <!-- Admin Dashboard Panel -->
     <section id="adminDashboard" class="admin-section active">
       <div class="stats-grid">
         <div class="stat-card" style="--accent:#6c63ff">
@@ -140,7 +140,7 @@
       </div>
     </section>
 
-    <!-- ── ADD STUDENT ── -->
+    <!-- Add Student Panel -->
     <section id="addStudentPage" class="admin-section">
       <div class="form-card">
         <h3 class="form-title"><i class="fas fa-user-plus"></i> Register New Student</h3>
@@ -167,7 +167,7 @@
       </div>
     </section>
 
-    <!-- ── VIEW STUDENTS ── -->
+    <!-- View Students Panel -->
     <section id="viewStudentsPage" class="admin-section">
       <div class="table-toolbar">
         <input id="studentSearch" class="search-input" placeholder="🔍  Search by name or USN..." oninput="filterStudents()">
@@ -179,7 +179,7 @@
       </table></div>
     </section>
 
-    <!-- ── ROOM STATUS ── -->
+    <!-- Room Status Panel -->
     <section id="roomStatusPage" class="admin-section">
       <div class="room-legend">
         <span class="leg occ"><i class="fas fa-circle"></i> Occupied</span>
@@ -188,7 +188,7 @@
       <div id="adminRoomGrid" class="admin-room-grid"></div>
     </section>
 
-    <!-- ── LEAVE ADMIN ── -->
+    <!-- Leave Approvals Panel -->
     <section id="leaveAdminPage" class="admin-section">
       <div class="table-wrap"><table id="leavesTable">
         <thead><tr><th>USN</th><th>Room</th><th>From</th><th>To</th><th>Reason</th><th>Status</th><th>Action</th></tr></thead>
@@ -196,7 +196,7 @@
       </table></div>
     </section>
 
-    <!-- ── NOTICE ADMIN ── -->
+    <!-- Notice Management Panel -->
     <section id="noticeAdminPage" class="admin-section">
       <div class="form-card compact">
         <h3><i class="fas fa-bullhorn"></i> Post New Notice</h3>
@@ -206,7 +206,7 @@
       <div id="noticesList" class="notices-list"></div>
     </section>
 
-    <!-- ── PENALTY ADMIN ── -->
+    <!-- Penalty Administration Panel -->
     <section id="penaltyAdminPage" class="admin-section">
       <div class="form-card compact">
         <h3><i class="fas fa-gavel"></i> Charge Penalty</h3>
@@ -224,7 +224,7 @@
       </table></div>
     </section>
 
-    <!-- ── COMPLAINTS ADMIN ── -->
+    <!-- Complaints Logs Panel -->
     <section id="complaintsAdminPage" class="admin-section">
       <div class="table-wrap"><table>
         <thead><tr><th>USN</th><th>Room</th><th>Complaint</th><th>Date</th></tr></thead>
@@ -232,12 +232,12 @@
       </table></div>
     </section>
 
-    <!-- ── FEEDBACK ADMIN ── -->
+    <!-- Feedback Reviews Panel -->
     <section id="feedbackAdminPage" class="admin-section">
       <div id="feedbackCards" class="feedback-grid"></div>
     </section>
 
-    <!-- ── MESS ADMIN ── -->
+    <!-- Mess Menu Settings Panel -->
     <section id="messAdminPage" class="admin-section">
       <div class="form-card">
         <h3><i class="fas fa-utensils"></i> Weekly Mess Menu</h3>
@@ -253,9 +253,9 @@
   </main>
 </div>
 
-<!-- ═══════════════════════════════════════════ STUDENT SHELL -->
+<!-- Student Shell -->
 <div id="studentShell" class="shell hidden">
-  <!-- Mobile bottom nav -->
+  <!-- Mobile Navigation Bar -->
   <nav class="student-bottom-nav">
     <a href="#" class="sn-link active" onclick="stuNav(this,'stuHome')"><i class="fas fa-home"></i><span>Home</span></a>
     <a href="#" class="sn-link" onclick="stuNav(this,'stuDashboard')"><i class="fas fa-id-badge"></i><span>Profile</span></a>
@@ -266,7 +266,7 @@
 
   <div class="stu-content">
 
-    <!-- ── STU HOME ── -->
+    <!-- Student Home Panel -->
     <section id="stuHome" class="stu-section active">
       <div class="stu-hero">
         <div class="stu-hero-bg"></div>
@@ -319,7 +319,7 @@
       </div>
     </section>
 
-    <!-- ── STU DASHBOARD / PROFILE ── -->
+    <!-- Student Profile Panel -->
     <section id="stuDashboard" class="stu-section">
       <div class="stu-section-header"><button class="back-btn" onclick="stuNav(null,'stuHome')"><i class="fas fa-arrow-left"></i></button><h3>My Profile</h3></div>
       <div class="profile-card">
@@ -328,7 +328,7 @@
       </div>
     </section>
 
-    <!-- ── STU ROOM ── -->
+    <!-- Student Room Booking Panel -->
     <section id="stuRoom" class="stu-section">
       <div class="stu-section-header"><button class="back-btn" onclick="stuNav(null,'stuHome')"><i class="fas fa-arrow-left"></i></button><h3>Room Booking</h3></div>
       <div id="roomLockedMsg" class="info-banner hidden"><i class="fas fa-lock"></i> Your room is already booked and locked.</div>
@@ -342,7 +342,7 @@
       </div>
     </section>
 
-    <!-- ── STU LEAVE ── -->
+    <!-- Student Leave Application Panel -->
     <section id="stuLeave" class="stu-section">
       <div class="stu-section-header"><button class="back-btn" onclick="stuNav(null,'stuHome')"><i class="fas fa-arrow-left"></i></button><h3>Leave Application</h3></div>
       <div class="form-card compact">
@@ -356,25 +356,25 @@
       <div id="stuLeaveHistory" class="leave-history"></div>
     </section>
 
-    <!-- ── STU NOTICES ── -->
+    <!-- Student Notices Board Panel -->
     <section id="stuNotices" class="stu-section">
       <div class="stu-section-header"><button class="back-btn" onclick="stuNav(null,'stuHome')"><i class="fas fa-arrow-left"></i></button><h3>Notices</h3></div>
       <div id="stuNoticesList" class="notices-list"></div>
     </section>
 
-    <!-- ── STU MESS ── -->
+    <!-- Student Mess Menu Panel -->
     <section id="stuMess" class="stu-section">
       <div class="stu-section-header"><button class="back-btn" onclick="stuNav(null,'stuHome')"><i class="fas fa-arrow-left"></i></button><h3>Mess Menu</h3></div>
       <div id="stuMessGrid" class="mess-week-grid"></div>
     </section>
 
-    <!-- ── STU FEES ── -->
+    <!-- Student Fees Payment Panel -->
     <section id="stuFees" class="stu-section">
       <div class="stu-section-header"><button class="back-btn" onclick="stuNav(null,'stuHome')"><i class="fas fa-arrow-left"></i></button><h3>Fee Payment</h3></div>
       <div id="feesContent" class="fees-card"></div>
     </section>
 
-    <!-- ── STU COMPLAINT ── -->
+    <!-- Student Complaint Submission Panel -->
     <section id="stuComplaint" class="stu-section">
       <div class="stu-section-header"><button class="back-btn" onclick="stuNav(null,'stuHome')"><i class="fas fa-arrow-left"></i></button><h3>Lodge Complaint</h3></div>
       <div class="form-card compact">
@@ -384,7 +384,7 @@
       </div>
     </section>
 
-    <!-- ── STU FEEDBACK ── -->
+    <!-- Student Feedback Submission Panel -->
     <section id="stuFeedback" class="stu-section">
       <div class="stu-section-header"><button class="back-btn" onclick="stuNav(null,'stuHome')"><i class="fas fa-arrow-left"></i></button><h3>Give Feedback</h3></div>
       <div class="form-card compact">
@@ -394,13 +394,13 @@
       </div>
     </section>
 
-    <!-- ── STU PENALTY ── -->
+    <!-- Student Penalty Details Panel -->
     <section id="stuPenalty" class="stu-section">
       <div class="stu-section-header"><button class="back-btn" onclick="stuNav(null,'stuHome')"><i class="fas fa-arrow-left"></i></button><h3>My Penalties</h3></div>
       <div id="stuPenaltiesList" class="penalties-list"></div>
     </section>
 
-    <!-- ── STU MORE ── -->
+    <!-- Student Settings Panel -->
     <section id="stuMore" class="stu-section">
       <div class="stu-section-header"><h3>More Options</h3></div>
       <div class="more-options">
@@ -415,10 +415,10 @@
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════ TOAST -->
+<!-- Toast Notification -->
 <div id="toast" class="toast"></div>
 
-<!-- ═══════════════════════════════════════════ SCRIPTS -->
+<!-- Scripts -->
 <script src="js/app.js"></script>
 </body>
 </html>
